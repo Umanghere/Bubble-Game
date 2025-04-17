@@ -1,61 +1,54 @@
-// Creating necessary varibales
-var randomNumber;
-var bubbles;
-var timer=60;
-var scores= 0;
-var clickedNumber;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Pop the Bubble!</title>
+</head>
+<body>
+    <div id="main">
+        <div id="game-container">
+            <!-- Game header with info bar -->
+            <div id="info-bar">
+                <div class="info-item">
+                    <div class="info-label">Target</div>
+                    <div id="hitValue" class="info-value">9</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Time</div>
+                    <div id="timeBox" class="info-value">60</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Score</div>
+                    <div id="scores" class="info-value">0</div>
+                </div>
+            </div>
 
-//This function makes bubble in the body of the game and through which you have to select the bubble with the number shown in Hit at the top panel of game.
-makeBubble = () => {
-    bubbles= "";
-    for(var i=1; i<=234; i++){
-        let rn= Math.ceil(Math.random()*40)
-        bubbles += `<div id="bubble">${rn}</div>`;
-    }
-    document.querySelector("#pbtm").innerHTML= bubbles;
-}
+            <!-- Game play area with bubbles -->
+            <div id="bubble-area"></div>
+            
+            <!-- Game controls -->
+            <div id="game-controls">
+                <button id="start-button">Start Game</button>
+                <button id="restart-button" style="display: none;">Play Again</button>
+            </div>
+        </div>
+    </div>
 
-// This function calculates time running at the top of game 
-runTimer = () =>{
-    timer = 60;
-    var timerInt = setInterval(function(){
-        if(timer > 0){
-            timer--;
-            document.querySelector("#box").innerHTML= timer;
-        }
-        else{
-            clearInterval(timerInt)
-            document.querySelector("#pbtm").innerHTML=`<h1>Your Score is: ${scores}</h1>`;
-        }
-    }, 1000) //This 1000 is used for 1 second.
-}
+    <!-- Game over popup -->
+    <div id="game-over" class="hidden">
+        <div id="game-over-content">
+            <h2>Game Over!</h2>
+            <p>Your final score: <span id="final-score">0</span></p>
+            <button id="play-again-button">Play Again</button>
+        </div>
+    </div>
 
-
-//This function generate a random number and shows which number to click in the bubbles given below
-getRandomHit = () => {
-    randomNumber = Math.ceil(Math.random() * 40)
-    document.querySelector("#hitValue").innerHTML = randomNumber;
-}
-
-// This function counts the score. Everytime you clicked on correct bubble will increase the score by 10 and then update the SCORE BOARD.
-scoreCounter = () =>{
-    scores += 10;
-    document.querySelector('#scores').innerHTML = scores;
-}
-
-
-// This function is used to implement the fuction of CLICKING and take input from keyboard. It takes input from page (by clicking) and matches with hit and then increase the score by 10.
-document.querySelector("#pbtm").addEventListener("click", function(kuchBhiRakhLoIskaNaam){
-    var clickedNumber= Number(kuchBhiRakhLoIskaNaam.target.innerHTML)
-    if(clickedNumber === randomNumber){
-        makeBubble();
-        getRandomHit();
-        scoreCounter();
-    }
-})
-
-
-//Here are all the necessary function called to start the game.
-makeBubble();   //Generates bubbles.
-runTimer();     //Start the times for 1 minute.
-getRandomHit(); //Shows the value in HIT to hit in bubbles.
+    <script src="script.js"></script>
+</body>
+</html>
