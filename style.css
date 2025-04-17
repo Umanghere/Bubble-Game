@@ -1,82 +1,267 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "gilroy";
+    font-family: 'Poppins', sans-serif;
 }
-html , body{
+
+:root {
+    --primary-color: #4CAF50;
+    --primary-dark: #388E3C;
+    --primary-light: #C8E6C9;
+    --accent-color: #FF9800;
+    --text-light: #FFFFFF;
+    --text-dark: #333333;
+    --border-radius: 12px;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+html, body {
     height: 100%;
     width: 100%;
 }
 
-#main{
+body {
+    background: linear-gradient(135deg, #e0f7e0, #c8f1c8);
+}
+
+#main {
     width: 100%;
     height: 100%;
-    background-color: rgb(204, 238, 204);
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px;
 }
 
-#panel{
-    width: 80%;
-    height: 80%;
-    border-radius: 10px;
+#game-container {
+    width: 90%;
+    max-width: 1200px;
+    height: 90%;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
-    background-color: #fff;
+    position: relative;
 }
 
-#ptop{
+/* Info bar styles */
+#info-bar {
     width: 100%;
-    height: 7rem;
-    background-color: rgb(113, 178, 113);
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
     display: flex;
+    justify-content: space-around;
     align-items: center;
-    padding: 0px 30%;
-    color:#fff;
-    justify-content: space-between;
+    padding: 12px;
+    color: var(--text-light);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
-.elem{
+.info-item {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 4px;
+}
+
+.info-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.info-value {
+    background-color: var(--text-light);
+    color: var(--primary-dark);
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 50px;
+    min-width: 60px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Bubble area styles */
+#bubble-area {
+    flex: 1;
+    padding: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    gap: 10px;
+    overflow-y: auto;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.bubble {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    background: radial-gradient(circle at 30% 30%, var(--primary-light), var(--primary-color));
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bubble:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.bubble:active {
+    transform: scale(0.95);
+}
+
+.bubble.correct {
+    background: radial-gradient(circle at 30% 30%, #FFD54F, var(--accent-color));
+    animation: pop 0.3s ease-out;
+}
+
+@keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+@keyframes appear {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.bubble-appear {
+    animation: appear 0.3s ease-out forwards;
+}
+
+/* Game control buttons */
+#game-controls {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
     gap: 20px;
 }
 
-.box{
-    padding: 10px;
-    border-radius: 2px;
-    background-color: #fff;
-    color: black;
-    font-size: 1.2rem;
+button {
+    padding: 10px 25px;
+    font-size: 1rem;
     font-weight: 600;
-    border-radius: 10px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: var(--transition);
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-#pbtm{
+button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Game over popup */
+#game-over {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: calc(100% - 7rem);
-    padding: 10px;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-#bubble{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    background-color: rgb(113, 178, 113);
-    color: rgb(255, 255, 255);
-    font-size: 1.3rem;
-    font-weight: bold;
-    /* transition: 0.15s; */
+#game-over.show {
+    opacity: 1;
 }
-#bubble:hover{
-    background-color: rgb(72, 104, 72);
+
+#game-over.hidden {
+    display: none;
+}
+
+#game-over-content {
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+#game-over-content h2 {
+    margin-bottom: 15px;
+    color: var(--primary-dark);
+}
+
+#game-over-content p {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+}
+
+#final-score {
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    .bubble {
+        width: 40px;
+        height: 40px;
+        font-size: 0.9rem;
+    }
+    
+    .info-label {
+        font-size: 0.8rem;
+    }
+    
+    .info-value {
+        font-size: 1rem;
+        padding: 4px 10px;
+        min-width: 50px;
+    }
+    
+    #bubble-area {
+        gap: 8px;
+        padding: 10px;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+    .bubble {
+        width: 50px;
+        height: 50px;
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 1025px) {
+    .bubble {
+        width: 60px;
+        height: 60px;
+        font-size: 1.2rem;
+    }
 }
